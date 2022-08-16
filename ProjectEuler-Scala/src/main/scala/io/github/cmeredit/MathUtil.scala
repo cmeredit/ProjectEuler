@@ -1,3 +1,5 @@
-package io.github.cmeredit object MathUtil {
+package io.github.cmeredit
+
+object MathUtil {
 
 }
