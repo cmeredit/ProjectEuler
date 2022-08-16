@@ -1,11 +1,3 @@
-<script
-
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-
-  type="text/javascript">
-
-</script>
-
 #Multiples of 3 or 5
 ##Problem 1
 
@@ -46,7 +38,7 @@ def PE1(n: Int): Int = {
 
 ###A Long Explanation
 
-For every $k, n \in \naturals$, let $D(n, k)$ be the set of all natural numbers less than $n$ that are evenly divisible by $k$. The problem asks for sum of values in $D(n, 3) \cup D(n, 5)$ with $n=1000$, i.e., the set of all natural numbers less than $n$ that are evenly divisible by $3$ or $5$. One's first thought might suggest that $\sum\left[D(n, 3) \cup D(n, 5)\right] = \sum\left[D(n, 3)\right] + \sum\left[D(n,5)\right]$, but this formula double-counts any value divisible both by $3$ and $5$. E.g., $15$ appears only once in the left-hand side of this equation, but appears in both of the sums on the right-hand side. Instead, by \href{https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle}{the inclusion-exclusion principle}, the actual formula is:
+For every $k, n \in \mathbb{N}$, let $D(n, k)$ be the set of all natural numbers less than $n$ that are evenly divisible by $k$. The problem asks for sum of values in $D(n, 3) \cup D(n, 5)$ with $n=1000$, i.e., the set of all natural numbers less than $n$ that are evenly divisible by $3$ or $5$. One's first thought might suggest that $\sum\left[D(n, 3) \cup D(n, 5)\right] = \sum\left[D(n, 3)\right] + \sum\left[D(n,5)\right]$, but this formula double-counts any value divisible both by $3$ and $5$. E.g., $15$ appears only once in the left-hand side of this equation, but appears in both of the sums on the right-hand side. Instead, by \href{https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle}{the inclusion-exclusion principle}, the actual formula is:
 $$\sum\left[D(n, 3) \cup D(n, 5)\right] = \sum\left[D(n, 3)\right] + \sum\left[D(n, 5)\right] - \sum\left[D(n, 3) \cap D(n, 5)\right]$$
 The intersection under the last sum can be expressed as a single $D$-set. In general,
 \begin{align*}
