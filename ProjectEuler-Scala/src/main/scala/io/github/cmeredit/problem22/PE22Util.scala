@@ -10,7 +10,7 @@ object PE22Util {
     val megaLine: String = bufferedSource.getLines().next()
     bufferedSource.close()
 
-    megaLine.split(delim)
+    megaLine.split(delim).map(_.filter(_.toString != "\""))
 
   }
 
