@@ -48,3 +48,10 @@ def getMonthLength(month: Int, year: Int): Int = {
     }
   }
 ```
+
+---
+
+### A Better Solution
+
+This problem can be solved without enumerating and filtering all year/month/day triples in the desired range:
+The pattern of month-start-days repeats every few years (within a given century), so it's actually only necessary to count Sunday-starts within a single cycle of this pattern (and then extend to the whole century).
