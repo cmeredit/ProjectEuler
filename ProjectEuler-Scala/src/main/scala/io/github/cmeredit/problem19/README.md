@@ -25,7 +25,7 @@ and let $L(m, y)$ denote the length of month $m$ in year $y$. Let $y'$ denote th
 The $SD$ function satisfies the following recurrence:
 
 - $SD(0, 1900) = 1$
-- $SD(m+1, y') \equiv SD(m, y) + L(m, y)$ ($mod\ 7$)
+- $SD(m+1, y') \equiv SD(m, y) + L(m, y)$ ( $mod\ 7$ )
 
 And the $L$ function can be determined by a fixed set of conditions on the month and year (e.g., through consideration of leap years).
 
