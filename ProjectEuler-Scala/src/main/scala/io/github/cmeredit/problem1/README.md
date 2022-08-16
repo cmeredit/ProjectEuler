@@ -1,10 +1,10 @@
-[comment]: <> (<script)
+<script
 
-[comment]: <> (  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 
-[comment]: <> (  type="text/javascript">)
+  type="text/javascript">
 
-[comment]: <> (</script>)
+</script>
 
 #Multiples of 3 or 5
 ##Problem 1
