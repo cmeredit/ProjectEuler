@@ -165,10 +165,8 @@ object MathUtil {
 
           })
 
-        // We found some factors not exceeding the square root of n above, but n might itself be prime.
-        // This is the case iff the "remaining" portion from above is nontrivial (i.e., if we didn't divide n by any
-        // prime power in the above process)
-        if (remaining == 1) smallFactors else Vector((remaining, 1))
+        // We found almost all primes that divide n, but whatever is left over might be nontrivial
+        smallFactors ++ {if (remaining == 1) Vector() else Vector((remaining, 1))}
       }
 
       // Gets the prime factors of n, but not the associated powers

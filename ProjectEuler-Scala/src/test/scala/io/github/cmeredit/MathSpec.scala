@@ -43,6 +43,41 @@ class MathSpec extends AnyFunSpec {
 
       }
 
+      describe("And its Factorization subobject") {
+
+        it("should perform correctly on limited, known, examples") {
+
+          val primes: Vector[Int] = MathUtil.Primes.primesLessThan(100)
+
+          for (
+            p <- primes;
+            q <- primes;
+            r <- primes if p < q && q < r
+          ) {
+//            println(f"p: $p q: $q r: $r")
+//            println(f"pqr: ${p*q*r}")
+//            println(f"Computed factorization: ${MathUtil.Primes.Factorization.getFactorizationRepresentation(MathUtil.Primes.Factorization.getPrimeFactorization(p*q*r))}")
+            assert(
+              MathUtil.Primes.Factorization.getPrimeFactorization(p * q * r) ===
+                Vector((p, 1), (q, 1), (r, 1))
+            )
+          }
+
+
+          for (
+            e1 <- 0 to 5;
+            e2 <- 0 to 5;
+            e3 <- 0 to 5 if !(e1 == 0 && e2 == 0 && e3 == 0)
+          ) assert(
+            MathUtil.Primes.Factorization.getPrimeFactorization(
+              (math.pow(2, e1) * math.pow(3, e2) * math.pow(5, e3)).toInt
+            ) ===
+              Vector((2, e1), (3, e2), (5, e3)).filter(_._2 != 0)
+          )
+
+        }
+
+      }
     }
   }
 
