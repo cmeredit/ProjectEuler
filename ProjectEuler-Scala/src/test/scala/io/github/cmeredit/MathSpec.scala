@@ -150,7 +150,7 @@ class MathSpec extends AnyFunSpec {
           knownPerfectNums.foreach(n => assert(computedPerfectNums.contains(n)))
           knownAbundantNums.foreach(n => assert(computedAbundantNums.contains(n)))
 
-          
+
         }
 
       }
