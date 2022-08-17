@@ -132,6 +132,25 @@ class MathSpec extends AnyFunSpec {
           })
 
 
+          val computedDeficientNums: Vector[Int] = MathUtil.Primes.Factorization.getDeficientNumbersBelow(100)
+          val computedPerfectNums: Vector[Int] = MathUtil.Primes.Factorization.getPerfectNumbersBelow(100)
+          val computedAbundantNums: Vector[Int] = MathUtil.Primes.Factorization.getAbundantNumbersBelow(100)
+
+          // OEIS A005100, https://oeis.org/A005100
+          val knownDeficientNums: Vector[Int] = Vector(1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 21, 22,
+            23, 25, 26, 27, 29, 31, 32, 33, 34, 35, 37, 38, 39, 41, 43, 44, 45, 46, 47, 49, 50, 51, 52, 53, 55, 57, 58,
+            59, 61, 62, 63, 64, 65, 67, 68, 69, 71, 73, 74, 75, 76, 77, 79, 81, 82, 83, 85, 86)
+          // OEIS A000396, https://oeis.org/A000396
+          val knownPerfectNums: Vector[Int] = Vector(6, 28)
+          // OEIS A005101, https://oeis.org/A005101
+          val knownAbundantNums: Vector[Int] = Vector(	12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78,
+            80, 84, 88, 90, 96)
+
+          knownDeficientNums.foreach(n => assert(computedDeficientNums.contains(n)))
+          knownPerfectNums.foreach(n => assert(computedPerfectNums.contains(n)))
+          knownAbundantNums.foreach(n => assert(computedAbundantNums.contains(n)))
+
+          
         }
 
       }

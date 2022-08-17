@@ -251,6 +251,10 @@ object MathUtil {
         if (n < 2) 0 else computeAliquotSumFromFact(getPrimeFactorization(n))
       }
 
+      def getDeficientNumbersBelow(n: Int): Vector[Int] = (1 until n).filter(k => k > computeAliquotSum(k)).toVector
+      def getPerfectNumbersBelow(n: Int): Vector[Int] = (1 until n).filter(k => k == computeAliquotSum(k)).toVector
+      def getAbundantNumbersBelow(n: Int): Vector[Int] = (1 until n).filter(k => k < computeAliquotSum(k)).toVector
+
     }
 
   }
