@@ -75,6 +75,63 @@ class MathSpec extends AnyFunSpec {
               Vector((2, e1), (3, e2), (5, e3)).filter(_._2 != 0)
           )
 
+          for (
+            a <- 1 to 100;
+            b <- 1 to 100 if a > 1 || b > 1
+          ) assert(
+            MathUtil.Primes.Factorization.getPrimeFactorization(a * b)
+            ===
+            MathUtil.Primes.Factorization.mergeFactorizations(
+              MathUtil.Primes.Factorization.getPrimeFactorization(a),
+              MathUtil.Primes.Factorization.getPrimeFactorization(b)
+            )
+          )
+
+
+          // Records the number of (not necessarily proper) divisors of the given keys
+          //
+          // Taken from https://en.wikipedia.org/wiki/Divisor_function
+          val numberOfDivisorsLimited: Map[Int, Int] = Map(
+            2 -> 2,
+            3 -> 2,
+            4 -> 3,
+            5 -> 2,
+            6 -> 4,
+            7 -> 2,
+            8 -> 4,
+            50 -> 6,
+            49 -> 3,
+            48 -> 10,
+            47 -> 2,
+            46 -> 4,
+            45 -> 6
+          )
+
+          numberOfDivisorsLimited.foreach({case (n, s) =>
+            assert(MathUtil.Primes.Factorization.getNumDivisors(n).toInt === s)
+          })
+
+          // Records the sum of proper divisors of the given keys
+          //
+          // Taken from https://en.wikipedia.org/wiki/Aliquot_sum
+          val aliquotSumsLimited: Map[Int, Int] = Map(
+            1 -> 0,
+            2 -> 1,
+            3 -> 1,
+            4 -> 3,
+            5 -> 1,
+            6 -> 6,
+            7 -> 1,
+            8 -> 7,
+            9 -> 4,
+            10 -> 8
+          )
+
+          aliquotSumsLimited.foreach({case (n, s) =>
+            assert(MathUtil.Primes.Factorization.computeAliquotSum(n).toInt === s)
+          })
+
+
         }
 
       }
