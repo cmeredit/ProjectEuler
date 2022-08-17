@@ -133,6 +133,128 @@ object MathUtil {
       }
     }
 
+
+    object Factorization {
+
+      // Gets the prime factorization of the input.
+      // A prime factorization is encoded as a vector of pairs of the form (p, e). A pair (p, e) is included iff
+      // p^e is the largest power of p that divides n and e>0.
+      def getPrimeFactorization(n: Int): Vector[(Int, Int)] = {
+
+        // If n has a proper prime factor, then it is at most the square root of n.
+        val primes: Vector[Int] = primesLessThan(scala.math.sqrt(n.toDouble).ceil.toInt+1)
+
+        // To factor n: For each prime p, if p divides n, divide the highest power of p by which n is divisible.
+        // Record the highest power of p that divides n and continue the process with remaining := n / p^e
+        val (smallFactors, remaining): (Vector[(Int, Int)], Int) = primes
+          .foldLeft[(Vector[(Int, Int)], Int)]((Vector(), n))({
+
+            case ((currentFactors, currentRemaining), nextPrime) =>
+              if (currentRemaining % nextPrime == 0) {
+                var nextRemaining: Int = currentRemaining
+                var degree: Int = 0
+                while (nextRemaining % nextPrime == 0) {
+                  nextRemaining = nextRemaining / nextPrime
+                  degree = degree + 1
+                }
+
+                (currentFactors.appended((nextPrime, degree)), nextRemaining)
+              } else {
+                (currentFactors, currentRemaining)
+              }
+
+          })
+
+        // We found some factors not exceeding the square root of n above, but n might itself be prime.
+        // This is the case iff the "remaining" portion from above is nontrivial (i.e., if we didn't divide n by any
+        // prime power in the above process)
+        if (remaining == 1) smallFactors else Vector((remaining, 1))
+      }
+
+      // Gets the prime factors of n, but not the associated powers
+      def getPrimeFactors(n: Int): Vector[Int] = getPrimeFactorization(n).map(_._1)
+
+      // If we have the prime factorizations of x and y, then the prime factorization of xy need not be computed
+      // directly. Instead, we can merge the prime factorizations of x and y by summing matching prime powers.
+      // E.g., (2^3*5^4) * (5^2*7^1) = 2^3*5^(4+2)*7^1
+      def mergeFactorizations(a: Vector[(Int, Int)], b: Vector[(Int, Int)]): Vector[(Int, Int)] = (a ++ b)
+        .groupBy(_._1)
+        .map({case (prime, appearances) => (prime, appearances.map(_._2).sum)})
+        .toVector
+        .sortBy(_._1)
+
+      // Faster to compute the factorizations of the factors and then merge them than compute the factorization
+      // of the product directly. The intuition here is that m and n are already factors of mn, so it seems fishy to
+      // ignore that knowledge and just multiply m and n.
+      def getPrimeFactorizationOfProduct(m: Int, n: Int): Vector[(Int, Int)] = {
+        mergeFactorizations(getPrimeFactorization(m), getPrimeFactorization(n))
+      }
+
+      // Creates a "nice" string representation of a prime factorization
+      def getFactorizationRepresentation(primeFactorization: Vector[(Int, Int)]): String = primeFactorization
+        .map({case (prime, degree) =>
+          if (degree > 1) {
+            prime.toString + "^" + degree.toString
+          } else {
+            prime.toString
+          }
+        }).reduce(_ + " * " + _)
+
+      // Returns the number of divisors of a number given its prime factorization
+      // We need not compute all of these factors. Instead, the prime factorization of a divisor of a number
+      // is a "sub-factorization" of the original: The only primes that may appear are those that appear as
+      // divisors of the original number and their associated powers must not exceed those found in the original number.
+      // Conversely, any number with such a prime factorization will be a divisor of the number of interest.
+      //
+      // Finding divisors of a number from its prime factorization amounts to choosing how to reduce each prime exponent.
+      //
+      // For example, the divisors of 2^3*5^1 are:
+      //
+      // 2^3 * 5^1
+      // 2^2 * 5^1
+      // 2^1 * 5^1
+      // 2^0 * 5^1
+      // 2^3 * 5^0
+      // 2^2 * 5^0
+      // 2^1 * 5^0
+      // 2^0 * 5^0
+      //
+      // Ultimately, the number of choices is the product of the number of choices in each prime exponent,
+      // i.e., the exponent in the original number plus one.
+      def getNumDivisorsFromFact(primeFactorization: Vector[(Int, Int)]): Long = {
+        primeFactorization.map(_._2 + 1).product
+      }
+
+      def getNumDivisors(n: Int): Long = getNumDivisorsFromFact(getPrimeFactorization(n))
+      def getNumProperDivisors(n: Int): Long = getNumDivisors(n) - 1L
+
+
+      // Aliquot sums can be computed directly from prime factorizations with a little cleverness!
+      // If n=p1^e1 * p2^e2 * ... * pk^ek, then its sum of divisors factors as:
+      // (1 + p1 + p1^2 + ... + p1^e1) * ... * (1 + pk + pk^2 + ... + pk^ek)
+      // To see this, note that expanding the above product amounts to choosing a summand from each factor and multiplying
+      // them. This is the same as choosing a divisor of n.
+      // Note that each factor above is geometric, so we can do even better. The above product simplifies to:
+      // [(p1^(e1+1)-1) / (p1 - 1)] * ... * [(pk^(ek+1)-1) / (pk - 1)]
+      def computeAliquotSumFromFact(primeFactorization: Vector[(Int, Int)]): Long = {
+        {
+          primeFactorization
+            .map({case (prime, degree) => (scala.math.pow(prime, degree + 1) - 1.0) / (prime.toDouble - 1.0)})
+            .product
+            .toLong
+        } - {
+          primeFactorization
+            .map({case (prime, degree) => scala.math.pow(prime, degree)})
+            .product
+            .toLong
+        }
+      }
+      def computeAliquotSum(n: Int): Long = {
+        if (n < 2) 0 else computeAliquotSumFromFact(getPrimeFactorization(n))
+      }
+
+    }
+
   }
 
 }
