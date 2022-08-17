@@ -5,6 +5,15 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+
+# Added on the fly - All seems like user-specific stuff.
+.idea/misc.xml
+.idea/modules/ProjectEuler-Scala-build.iml
+.idea/modules/ProjectEuler-Scala.iml
+.idea/runConfigurations.xml
+
+
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
