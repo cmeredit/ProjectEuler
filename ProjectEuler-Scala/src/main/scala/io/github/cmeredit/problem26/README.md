@@ -45,7 +45,7 @@ $$
 60 &= 7 \cdot 8 + 4\\
 40 &= 7 \cdot 5 + 5\\
 50 &= 7 \cdot 7 + 1
-\emd{align}
+\end{align}
 $$
 
 The remainder "$1$" has already appeared, so the division process is now entirely determined and will cycle.
