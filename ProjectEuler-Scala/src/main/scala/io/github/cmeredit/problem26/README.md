@@ -48,7 +48,7 @@ $$
 \end{align}
 $$
 
-The remainder "$1$" has already appeared, so the division process is now entirely determined and will cycle.
+The remainder " $1$ " has already appeared, so the division process is now entirely determined and will cycle.
 
 For the purposes of this problem, we need only record the remainders, not the digits. A rather small recurrence
 encodes these remainders: Given a number $d$, the sequence of remainders $r_n$ associated to $\frac{1}{d}$ is given by:
