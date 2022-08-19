@@ -25,37 +25,58 @@ object PE27Util {
         }
       ).length
     }
-    
-    val candidatePairs: Vector[(Int, Int)] = for (
-      b <- MathUtil.Primes.primesLessThan(bMax + 1).reverse;
-      a <- aMin to aMax
-    ) yield (a, b)
 
-    val (firstA, firstB): (Int, Int) = candidatePairs.head
 
-    val (winningA, winningB, winningLength): (Int, Int, Int) = candidatePairs.tail.foldLeft((firstA, firstB, getPrimeSeqLength(firstA, firstB)))({case ((curWinnerA, curWinnerB, curWinnerLength), (nextA, nextB)) =>
 
-//      println(f"Testing a=$nextA, p=$nextB")
-      val maxSeqLength: Int = if (nextB > nextA) nextB - nextA else nextB
+    val candidatePrimes: Vector[Int] = MathUtil.Primes.primesLessThan(bMax + 1).reverse
 
-      if (maxSeqLength < curWinnerLength) {
-        // This a/b pair is guaranteed not to produce enough primes
-//        println(f"This pair is guaranteed to lose")
-        (curWinnerA, curWinnerB, curWinnerLength)
-      } else {
-        // Need to check for victory...
-        val nextPrimeSeqLength: Int = getPrimeSeqLength(nextA, nextB)
 
-        if (nextPrimeSeqLength > curWinnerLength) {
-//          println(f"Found a new winning length of $nextPrimeSeqLength!")
-          (nextA, nextB, nextPrimeSeqLength)
-        } else {
-//          println(f"The old champion remains...")
-          (curWinnerA, curWinnerB, curWinnerLength)
+    // Using a couple of nested for-loops and an updating winningLength, we can skip quite a lot of work. It's a pain
+    // to avoid this work in a purely functional style.
+    var (winningA, winningB): (Int, Int) = (aMin, candidatePrimes.head)
+    var winningLength: Int = getPrimeSeqLength(winningA, winningB)
+
+    for (b <- candidatePrimes) {
+
+      // A pair (_, b) can only win if b is above the current winning length
+      if (b > winningLength) {
+        // b > a
+        for (a <- aMin until b) {
+
+          val seqLengthUpperBound: Int = b-a
+          if (seqLengthUpperBound >= winningLength) {
+            // Need to check for victory...
+            val nextPrimeSeqLength: Int = getPrimeSeqLength(a, b)
+
+            if (nextPrimeSeqLength > winningLength) {
+              //          println(f"Found a new winning length of $nextPrimeSeqLength!")
+              winningA = a
+              winningB = b
+              winningLength = nextPrimeSeqLength
+            }
+          }
+
+        }
+
+        // b <= a
+        for (a <- b until aMax) {
+
+          val seqLengthUpperBound: Int = b
+          if (seqLengthUpperBound >= winningLength) {
+            // Need to check for victory...
+            val nextPrimeSeqLength: Int = getPrimeSeqLength(a, b)
+
+            if (nextPrimeSeqLength > winningLength) {
+              //          println(f"Found a new winning length of $nextPrimeSeqLength!")
+              winningA = a
+              winningB = b
+              winningLength = nextPrimeSeqLength
+            }
+          }
+
         }
       }
-
-    })
+    }
 
     (winningA, winningB, winningLength)
 
