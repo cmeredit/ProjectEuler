@@ -2,37 +2,51 @@ package io.github.cmeredit.problem30
 
 object PE30Util {
 
+  // Returns the digits of n
   def getDigits(n: Int): Vector[Int] = {
     var digits: Vector[Int] = Vector()
     var remaining: Int = n
 
+    // Peel off the digits, one by one, starting with the LSD
     while (remaining != 0) {
-      digits = digits.appended(remaining % 10)
+      // Prepend has better performance on most Scala collections, so let's get in
+      // the habit of using it. Also, we're peeling off digits from least-to-most significant,
+      // so prepending keeps digits in the usual order.
+      digits = digits.prepended(remaining % 10)
       remaining = remaining / 10
     }
 
-    digits.reverse
+    digits
   }
 
+  // Gets a vector of all numbers, represented as digit collections, with the specified
+  // number of digits and maximum digit.
   def getDigitsWith(numDigits: Int, maxDigit: Int): Vector[Vector[Int]] = {
     val possibleDigits: Vector[Int] = (0 to maxDigit).toVector
-    val minDigitLocations: IndexedSeq[Int] = 0 until numDigits
+    val maxDigitLocations: IndexedSeq[Int] = 0 until numDigits
 
-    minDigitLocations.flatMap(maxLocation => {
+    // Knowing the location of the max digit makes it a bit easier to construct satisfactory digit sequences
+    maxDigitLocations.flatMap(maxLocation => {
       (0 until numDigits).foldLeft[Vector[Vector[Int]]](Vector(Vector()))({case (curDigits, nextLocation) =>
+        // If we're at the location of the max digit, make sure to add the max digit to any previously constructed digit
+        // sequences
         if (nextLocation == maxLocation) {
           curDigits.map(_.appended(maxDigit))
         } else {
+          // If we're not at the location of the max digit, then just add any admissible digit to any
+          // previously constructed digit sequence
           for (
             digitSequence <- curDigits;
             nextDigit <- possibleDigits
           ) yield digitSequence.appended(nextDigit)
         }
       })
-    }).toVector.distinct
+    }).toVector.distinct // Some digit sequences can be generated multiple ways. E.g., Vector(9, 9) has maxLocation 0 or 1
 
   }
 
+  // Returns the collection of all digit sequences that aren't prevented by our quick reductions.
+  // We still need to test whether these numbers equal their power digit sums
   def getCandidates: Vector[Vector[Int]] = {
 
     val digitPowers: Vector[Int] = (0 to 9).toVector.map(n => math.pow(n, 5).toInt)
@@ -63,6 +77,7 @@ object PE30Util {
 
   def powerDigitSum(digits: Vector[Int]): Int = digits.map(d => math.pow(d, 5).toInt).sum
 
+  // Converts a (short enough) digit sequence back to an Int
   def digitsToInt(digits: Vector[Int]): Int = digits.reverse.foldLeft((0, 1))({case ((curSum, curPower), nextDigit) => (curSum + curPower * nextDigit, curPower * 10)})._1
 
 }
