@@ -30,9 +30,7 @@ general partitions for a moment.
 
 **Convention:** For any natural number $n$, a partition of $n$ is a vector of natural numbers $\langle a_1, \dots, a_m \rangle$
 satisfying (1) $a_1 + \cdots a_m = n$ and (2) For all $i$ with $1 \leq i < m$, $a_i \geq a_{i+1}$ (i.e., partitions are 
-nonincreasing).
-
-This convention helps us avoid double-counting, for example, $1+2$ and $2+1$ as different partitions of $3$: Of these two, 
+nonincreasing). This convention helps us avoid double-counting, for example, $1+2$ and $2+1$ as different partitions of $3$: Of these two, 
 only $\langle 2, 1 \rangle$ will be considered a partition. The convention also allows us to shift our focus to the first 
 entry of partitions while counting.
 
@@ -41,7 +39,9 @@ entry of partitions while counting.
 Several useful facts fall out of this definition and our convention! For all $n, k \in \mathbb{N}$,
 1. If $k > n$, then $P(n, k) = 0$ (no partition of $n$ has a sum greater than $n$, but every partition sums to at least its first entry!),
 2. If $k = n$, then $P(n, k) = P(n, n) = 1$ (the only partition of $n$ that begins with $n$ is $\langle n \rangle$), and
-3. If $k < n$, then $P(n, k) = \sum_{j = 0}^{min(k, n - k)} P(n - k, j)$.
+3. If $k < n$, then 
+
+$$P(n, k) = \sum_{j = 0}^{min(k, n - k)} P(n - k, j)$$
 
 The idea behind fact 3 is as follows: If $\langle k, a_2, \dots, a_m \rangle$
 is a partition of $n$, then $\langle a_2, \dots, a_m$ is a partition of $n-k$ since (1) 
@@ -58,7 +58,7 @@ function).
 
 ### Coin Partitions
 
-Let $S$ be a set of natural numbers (e.g., in the given problem, we'll take $S := \{1, 2, 5, 10, 50, 100, 200\}$).
+Let $S$ be a set of natural numbers (e.g., in the given problem, we'll take $S := \{1, 2, 5, 10, 50, 100, 200\}$ ).
 
 **Convention:** For any natural number $n$, an $S$-partition of $n$ is a vector of elements of $S$ $\langle a_1, \dots, a_m \rangle$
 satisfying (1) $a_1 + \cdots a_m = n$ and (2) For all $i$ with $1 \leq i < m$, $a_i \geq a_{i+1}$ (i.e., partitions are
@@ -70,7 +70,9 @@ As before, several useful facts arise:
 1. If $k \not \in S$, then $P_S(n, k) = 0$.
 2. If $k > n$, then $P(n, k) = 0$ (no partition of $n$ has a sum greater than $n$, but every partition sums to at least its first entry!),
 3. If $k = n$ and $k \in S$, then $P(n, k) = P(n, n) = 1$ (the only partition of $n$ that begins with $n$ is $\langle n \rangle$), and
-4. If $k < n$ and $k \in S$, then $P(n, k) = \sum_{j = 0}^{min(k, n - k)} P(n - k, j) = \sum_{j \in S, j \leq min(k, n-k)} P(n - k, j)$.
+4. If $k < n$ and $k \in S$, then 
+
+$$P(n, k) = \sum_{j = 0}^{min(k, n - k)} P(n - k, j) = \sum_{j \in S, j \leq min(k, n-k)} P(n - k, j)$$
 
 Just as before, we can count $S$-partitions recursively. Let $P_S(n)$ be the number of $S$-partitions of $n$. Then 
 $P_S(n) = \sum_{k \in S} P_S(n, k)$ (each $S$-partition of $n$ has to start with _something_). Ultimately, this yields
