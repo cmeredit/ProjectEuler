@@ -18,6 +18,8 @@ class MathSpec extends AnyFunSpec {
         assert(MathUtil.getDigits(100) == Vector(1, 0, 0))
         assert(MathUtil.getDigits(0) == Vector())
 
+        assert(MathUtil.getDigits(585, 2) == Vector(1,0,0,1,0,0,1,0,0,1))
+
       }
 
       it("should (on nonzero inputs) invert getDigits with digitsToInt") {

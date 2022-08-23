@@ -8,7 +8,7 @@ object MathUtil {
   def triangleNum(k: Int): Int = k * (k+1) / 2
 
   // Returns the digits of n
-  def getDigits(n: Int): Vector[Int] = {
+  def getDigits(n: Int, base: Int = 10): Vector[Int] = {
     var digits: Vector[Int] = Vector()
     var remaining: Int = n
 
@@ -17,8 +17,8 @@ object MathUtil {
       // Prepend has better performance on most Scala collections, so let's get in
       // the habit of using it. Also, we're peeling off digits from least-to-most significant,
       // so prepending keeps digits in the usual order.
-      digits = digits.prepended(remaining % 10)
-      remaining = remaining / 10
+      digits = digits.prepended(remaining % base)
+      remaining = remaining / base
     }
 
     digits
