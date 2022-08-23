@@ -89,3 +89,6 @@ is given below:
 
 For example, 6 and 8 are incompatible since the product of any two numbers that end in 6 and 8 will end in 8. In our actual solution, we 
 compute these automatically.
+
+Remark: Ultimately, this digit compatibility reduction leaves us with 15,120 possible pandigital identities to check. Much better than the
+10 million (or even 30 thousand) we started with!
