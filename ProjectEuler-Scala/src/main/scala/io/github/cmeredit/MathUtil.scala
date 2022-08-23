@@ -7,6 +7,26 @@ object MathUtil {
   // Calculates the k-th triangular number
   def triangleNum(k: Int): Int = k * (k+1) / 2
 
+  // Returns the digits of n
+  def getDigits(n: Int): Vector[Int] = {
+    var digits: Vector[Int] = Vector()
+    var remaining: Int = n
+
+    // Peel off the digits, one by one, starting with the LSD
+    while (remaining != 0) {
+      // Prepend has better performance on most Scala collections, so let's get in
+      // the habit of using it. Also, we're peeling off digits from least-to-most significant,
+      // so prepending keeps digits in the usual order.
+      digits = digits.prepended(remaining % 10)
+      remaining = remaining / 10
+    }
+
+    digits
+  }
+
+  // Converts a (short enough) digit sequence back to an Int
+  def digitsToInt(digits: Vector[Int]): Int = digits.reverse.foldLeft((0, 1))({case ((curSum, curPower), nextDigit) => (curSum + curPower * nextDigit, curPower * 10)})._1
+
   object Primes {
 
     // Lazy List of all triples (P_n, a_n, S_n), indexed from 0, where P_n is the vector of the first n+2 primes,

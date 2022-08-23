@@ -2,22 +2,9 @@ package io.github.cmeredit.problem30
 
 object PE30Util {
 
-  // Returns the digits of n
-  def getDigits(n: Int): Vector[Int] = {
-    var digits: Vector[Int] = Vector()
-    var remaining: Int = n
+  import io.github.cmeredit.MathUtil.getDigits
+  import io.github.cmeredit.MathUtil.digitsToInt
 
-    // Peel off the digits, one by one, starting with the LSD
-    while (remaining != 0) {
-      // Prepend has better performance on most Scala collections, so let's get in
-      // the habit of using it. Also, we're peeling off digits from least-to-most significant,
-      // so prepending keeps digits in the usual order.
-      digits = digits.prepended(remaining % 10)
-      remaining = remaining / 10
-    }
-
-    digits
-  }
 
   // Gets a vector of all numbers, represented as digit collections, with the specified
   // number of digits and maximum digit.
@@ -76,8 +63,5 @@ object PE30Util {
   }
 
   def powerDigitSum(digits: Vector[Int]): Int = digits.map(d => math.pow(d, 5).toInt).sum
-
-  // Converts a (short enough) digit sequence back to an Int
-  def digitsToInt(digits: Vector[Int]): Int = digits.reverse.foldLeft((0, 1))({case ((curSum, curPower), nextDigit) => (curSum + curPower * nextDigit, curPower * 10)})._1
 
 }

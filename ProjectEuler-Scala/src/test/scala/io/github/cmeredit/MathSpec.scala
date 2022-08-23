@@ -11,6 +11,33 @@ class MathSpec extends AnyFunSpec {
       }
     }
 
+    describe("When working with the digits of a number") {
+      it("should produce the correct digits of a few test numbers") {
+
+        assert(MathUtil.getDigits(123456789) == Vector(1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assert(MathUtil.getDigits(100) == Vector(1, 0, 0))
+        assert(MathUtil.getDigits(0) == Vector())
+
+      }
+
+      it("should (on nonzero inputs) invert getDigits with digitsToInt") {
+
+        (1 to 1000).foreach(n => assert(n == MathUtil.digitsToInt(MathUtil.getDigits(n))))
+
+      }
+
+      it("should (on nonempty inputs) invert digitsToInt with getDigits") {
+
+        for (
+          a <- 1 to 9;
+          b <- 0 to 9;
+          c <- 0 to 9;
+          d <- 0 to 9
+        ) assert(MathUtil.getDigits(MathUtil.digitsToInt(Vector(a, b, c, d))) == Vector(a, b, c, d))
+
+      }
+    }
+
     describe("And its Primes subobject") {
 
       it("should produce the correct first few primes") {
