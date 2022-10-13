@@ -56,6 +56,6 @@ encodes these remainders: Given a number $d$, the sequence of remainders $r_n$ a
 $$
 \begin{align}
 r_0 &:= 1 \\
-r_{n+1} &:= 10 \cdot r_n %% d
+r_{n+1} &:= 10 \cdot r_n \text{ mod } d
 \end{align}
 $$
